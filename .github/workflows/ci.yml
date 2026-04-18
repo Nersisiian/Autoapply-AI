@@ -10,38 +10,37 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Clear pip cache
         run: pip cache purge
 
-      - name: Install backend dependencies
+      - name: Install dependencies (no cache)
         run: |
           cd backend
           pip install --upgrade pip
           pip install --no-cache-dir -r requirements.txt
-          python -m spacy download en_core_web_sm
 
-      - name: Verify backend imports
+      - name: Download spaCy model
+        run: python -m spacy download en_core_web_sm
+
+      - name: Verify imports
         run: |
           cd backend
-          python -c "from app.main import app; print('✅ Backend imports OK')"
+          python -c "import spacy; nlp = spacy.load('en_core_web_sm'); print('✅ spaCy OK')"
+          python -c "from app.main import app; print('✅ Backend OK')"
 
   docker-build:
     runs-on: ubuntu-latest
     needs: test
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Build backend Docker image (no cache)
+      - name: Build backend (no cache)
         run: docker build --no-cache -t autoapply-backend ./backend
 
-      - name: Build frontend Docker image (no cache)
+      - name: Build frontend (no cache)
         run: docker build --no-cache -t autoapply-frontend ./frontend
