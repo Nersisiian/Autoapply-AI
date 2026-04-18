@@ -22,6 +22,8 @@ jobs:
           pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1.tar.gz
       - name: Verify imports
         run: |
+          mkdir -p data/uploads
+          export UPLOAD_DIR="./data/uploads"
           cd backend
           python -c "import spacy; nlp = spacy.load('en_core_web_sm'); print('✅ spaCy OK')"
           python -c "from app.main import app; print('✅ Backend OK')"

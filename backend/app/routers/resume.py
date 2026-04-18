@@ -12,7 +12,7 @@ import docx
 
 router = APIRouter(prefix="/resume", tags=["resume"])
 
-UPLOAD_DIR = "/app/data/uploads"
+UPLOAD_DIR = os.getenv("UPLOAD_DIR", "./data/uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 def extract_text_from_pdf(file_path: str) -> str:
