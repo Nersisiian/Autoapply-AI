@@ -1,4 +1,28 @@
-import streamlit as st
+﻿import streamlit as st
+
+# Кастомный CSS для стильного интерфейса
+st.markdown(\"\"\"
+<style>
+    .main-header {
+        font-size: 3rem;
+        background: linear-gradient(90deg, #6C63FF, #3F3D9E);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: bold;
+    }
+    .stButton>button {
+        background-color: #6C63FF;
+        color: white;
+        border-radius: 8px;
+        padding: 0.5rem 1rem;
+        font-weight: bold;
+        border: none;
+    }
+    .stButton>button:hover {
+        background-color: #5A52D5;
+    }
+</style>
+\"\"\", unsafe_allow_html=True)
 import requests
 import pandas as pd
 import time
@@ -6,7 +30,7 @@ import time
 API_URL = "http://backend:8000"
 
 st.set_page_config(page_title="AutoApply AI", layout="wide")
-st.title("🤖 AutoApply AI — Intelligent Job Application System")
+st.title("рџ¤– AutoApply AI вЂ” Intelligent Job Application System")
 
 # Sidebar navigation
 page = st.sidebar.selectbox(
@@ -15,7 +39,7 @@ page = st.sidebar.selectbox(
 )
 
 if page == "Upload Resume":
-    st.header("📄 Upload Your Resume")
+    st.header("рџ“„ Upload Your Resume")
     uploaded_file = st.file_uploader("Choose a PDF, DOCX, or TXT", type=["pdf", "docx", "txt"])
     if uploaded_file:
         with st.spinner("Parsing and embedding..."):
@@ -30,7 +54,7 @@ if page == "Upload Resume":
                 st.error("Upload failed")
 
 elif page == "Browse Jobs":
-    st.header("🔍 Job Listings")
+    st.header("рџ”Ќ Job Listings")
     col1, col2 = st.columns(2)
     with col1:
         if st.button("Fetch New Jobs"):
@@ -66,7 +90,7 @@ elif page == "Browse Jobs":
         st.dataframe(df_matched[["id", "title", "company", "fit_score"]], use_container_width=True)
 
 elif page == "Generate Applications":
-    st.header("✍️ Generate Cover Letters & Apply")
+    st.header("вњЌпёЏ Generate Cover Letters & Apply")
     if "matched_jobs" not in st.session_state or "resume_id" not in st.session_state:
         st.warning("Please upload resume and match jobs first.")
     else:
@@ -110,7 +134,7 @@ elif page == "Generate Applications":
                     st.error("Failed to record application")
 
 elif page == "Autopilot":
-    st.header("🚀 Job Opportunity Autopilot")
+    st.header("рџљЂ Job Opportunity Autopilot")
     st.markdown("""
     **Let AI work for you 24/7.**  
     Enable autopilot and the system will continuously find new jobs, 
@@ -153,7 +177,7 @@ elif page == "Autopilot":
                 st.error("Autopilot run failed.")
 
 elif page == "Application Tracker":
-    st.header("📊 Your Applications")
+    st.header("рџ“Љ Your Applications")
     resp = requests.get(f"{API_URL}/applications/")
     if resp.status_code == 200:
         apps = resp.json()
