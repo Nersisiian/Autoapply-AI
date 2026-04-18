@@ -1,0 +1,28 @@
+# Data
+data/
+*.db
+*.sqlite3
+
+# Uploads
+uploads/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.env
+.venv
+
+# IDEs
+.vscode/
+.idea/
+
+# Docker
+*.log
+
+# OS
+.DS_Store
